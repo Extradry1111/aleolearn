@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AleoLearn: The Future of Privacy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header id="header">
+        <div class="logo-container" onclick="showSection('home')">
+            <img src="assets/logo.png" alt="AleoLearn Logo" class="logo-img">
+            <span class="logo-text">aleolearn</span>
+        </div>
+        <nav>
+            <a href="#" data-section="home" class="nav-item active">Home</a>
+            <a href="#" data-section="lessons" class="nav-item">Lessons</a>
+            <a href="#" data-section="flashcards" class="nav-item">Flashcards</a>
+            <a href="#" data-section="library" class="nav-item">Library</a>
+            <a href="#" data-section="certificate" class="nav-item">Certificate</a>
+        </nav>
+        <!-- NEW: Learning Streak in Header -->
+        <div class="header-streak">
+            <i class="fas fa-fire streak-icon-small"></i>
+            <span id="current-streak-header">0 Days</span>
+        </div>
+    </header>
+
+    <main id="app-container">
+
+        <!-- HOME SECTION -->
+        <section id="home" class="content-section active">
+            <div class="hero-section section-card">
+                <h1>Mastering Privacy with Aleo</h1>
+                <p>Start your journey into the world of Zero-Knowledge technology and decentralized applications.</p>
+                <button class="cta-button" onclick="showSection('lessons')">Start Learning Now</button>
+            </div>
+
+            <div class="progress-stats section-card">
+                <h2>Your Learning Path</h2>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <h3>Overall Progress</h3>
+                        <div class="progress-bar-container">
+                            <div id="overall-progress-bar" class="progress-bar" style="width: 0%;"></div>
+                        </div>
+                        <span id="progress-percent">0% Completed (0/6 Lessons Passed)</span>
+                    </div>
+                    <div class="stat-box">
+                        <h3>Learning Streak</h3>
+                        <i class="fas fa-fire streak-icon"></i>
+                        <span id="current-streak">0 Days</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mini-game-container section-card">
+                <h2>Explore Privacy: The ZK Demo</h2>
+                <p>See how Aleo keeps your data private while verifying computation integrity.</p>
+                <button class="learn-more-button cta-button" onclick="openZkSimulator()">Launch ZK Simulator</button>
+            </div>
+        </section>
+
+        <!-- LESSONS SECTION -->
+        <section id="lessons" class="content-section hidden">
+            <h1>Aleo Curriculum</h1>
+            <div id="lessons-list" class="grid-container"></div>
+        </section>
+
+        <!-- LESSON VIEWER -->
+        <section id="lesson-viewer" class="content-section hidden">
+            <button class="back-button" onclick="showSection('lessons')"><i class="fas fa-arrow-left"></i> Back to Lessons</button>
+            <h2 id="lesson-title"></h2>
+            
+            <div class="lesson-content-wrapper section-card">
+                <div class="lesson-progress-bar-container">
+                    <span class="progress-label">Read Progress: <span id="read-progress-percent">0%</span></span>
+                    <div id="lesson-read-progress" class="progress-bar lesson-bar-small" style="width: 0%;"></div>
+                </div>
+                
+                <div id="lesson-content-display"></div>
+
+                <!-- NEW: Next Lesson button -->
+                <div id="lesson-navigation-footer" class="hidden">
+                    <button id="next-lesson-btn" class="cta-button">Go to Next Lesson <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <div id="quiz-area" class="quiz-container hidden section-card">
+                <h3>Quiz Time!</h3>
+                <p>Answer each question step-by-step. You need 4 out of 5 correct to pass.</p>
+                
+                <div id="quiz-progress-info">
+                    <span id="quiz-step-indicator">Question 1 of 5</span>
+                </div>
+
+                <div id="quiz-question-display"></div>
+
+                <div id="quiz-navigation">
+                    <button id="quiz-next-btn" class="cta-button">Next Question</button>
+                </div>
+
+                <div id="quiz-results" class="hidden">
+                    <h3>Quiz Results</h3>
+                    <p id="quiz-score"></p>
+                    <div id="quiz-review"></div>
+                    <div id="quiz-hints"></div>
+                    <div class="quiz-result-actions">
+                        <button id="retry-quiz-btn" class="cta-button hidden">Retry Quiz</button>
+                        <button id="finish-quiz-btn" class="cta-button hidden">Back to Lessons</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FLASHCARDS SECTION -->
+        <section id="flashcards" class="content-section hidden">
+            <h1>Key Concepts Flashcards</h1>
+            <p>Test your knowledge on core Aleo terminology. Click the card to flip it!</p>
+            <div id="flashcard-grid" class="grid-container"></div>
+        </section>
+
+        <!-- LIBRARY SECTION -->
+        <section id="library" class="content-section hidden">
+            <h1>Aleo Library & Glossary</h1>
+            <p>Comprehensive definitions and documentation topics.</p>
+            <div id="library-content"></div>
+        </section>
+        
+        <!-- CERTIFICATE SECTION -->
+        <section id="certificate" class="content-section hidden">
+            <h1>Your Certification</h1>
+            <div id="certificate-status" class="section-card">
+                <p id="certificate-message">Complete all 6 lessons and quizzes to earn your AleoLearn Certification!</p>
+                <img id="certificate-display" src="assets/certificate1.png" alt="AleoLearn Certificate" class="certificate-img hidden">
+                <button id="download-certificate" class="cta-button hidden">Download Certificate</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ZK SIMULATOR MODAL -->
+    <div id="zk-simulator-modal" class="modal hidden">
+        <div class="modal-content section-card">
+            <span class="modal-close" onclick="closeZkSimulator()">&times;</span>
+            <h2>ZK Proof Simulator</h2>
+            <p>Watch how Aleo's Zero-Knowledge technology works in practice:</p>
+            
+            <div id="simulator-steps">
+                <div class="sim-step active-step" id="step-1">
+                    <h4><i class="fas fa-user-secret"></i> Step 1: Private Input</h4>
+                    <p>User provides secret data <code>X</code> (e.g., balance = 1000 credits)</p>
+                    <div class="sim-visual">🔒 Secret: <strong>X = 1000</strong></div>
+                </div>
+
+                <div class="sim-step" id="step-2">
+                    <h4><i class="fas fa-cogs"></i> Step 2: Computation</h4>
+                    <p>Leo program executes off-chain: <code>Y = compute(X)</code></p>
+                    <div class="sim-visual">⚙️ Computing privately...</div>
+                </div>
+
+                <div class="sim-step" id="step-3">
+                    <h4><i class="fas fa-shield-alt"></i> Step 3: Generate Proof</h4>
+                    <p>Prover creates zk-SNARK proof <code>P</code> without revealing <code>X</code></p>
+                    <div class="sim-visual">🛡️ Proof <strong>P</strong> generated</div>
+                </div>
+
+                <div class="sim-step" id="step-4">
+                    <h4><i class="fas fa-check-circle"></i> Step 4: Verification</h4>
+                    <p>Validators verify proof <code>P</code> on-chain. They never see <code>X</code>!</p>
+                    <div class="sim-visual">✅ Proof verified. Privacy preserved.</div>
+                </div>
+            </div>
+
+            <div class="sim-controls">
+                <button id="sim-start-btn" class="cta-button" onclick="runSimulator()">Start Simulation</button>
+                <button id="sim-reset-btn" class="cta-button hidden" onclick="resetSimulator()">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW: Lesson Completed Notification -->
+    <div id="lesson-completed-notification" class="notification hidden">
+        <span id="completed-message">Lesson X Completed!</span>
+    </div>
+
+    <!-- FOOTER -->
+    <footer id="footer">
+        <p>made by <a href="https://x.com/yaaaori" target="_blank" rel="noopener">@yaaaori</a> | For Aleo <a href="https://aleo.org" target="_blank" rel="noopener">aleo.org</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
